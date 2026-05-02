@@ -1,0 +1,47 @@
+name: Run API Request
+
+on: 
+    schedule: 
+        - cron: "0 2 * * *" 
+    workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true   # erlaubt push
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run API script
+        run: |
+          python api_request.py
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-action"
+          git config --global user.email "github-action@.github.com"
+
+          git add station_prices.csv
+
+          # Nur committen, wenn es Änderungen gibt
+          if ! git diff --cached --quiet; then
+            git commit -m "Update CSV via GitHub Actions"
+            git push origin main
+          else
+            echo "Keine Änderungen, kein Commit."
+          fi
