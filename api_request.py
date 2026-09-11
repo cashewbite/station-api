@@ -38,7 +38,7 @@ else:
 # 2. Letzte 7 Tage bestimmen (ohne heute)
 # ============================
 today = datetime.now().date()
-days_to_check = [(today - timedelta(days=i)) for i in range(1, 8)]
+days_to_check = [(today - timedelta(days=i)) for i in range(1, 9)]
 
 # ============================
 # 3. Feiertage vorbereiten
