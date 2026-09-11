@@ -119,7 +119,7 @@ else:
 df_all["date"] = pd.to_datetime(df_all["date"], errors="coerce")
 
 # Nur letzte 7 Tage behalten
-df_all = df_all[df_all["date"].dt.date >= (today - timedelta(days=7))]
+df_all = df_all[df_all["date"].dt.date >= (today - timedelta(days=8))]
 
 # Duplikate entfernen
 df_all = df_all.drop_duplicates()
